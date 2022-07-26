@@ -16,7 +16,12 @@
         <div class="form-group">
             <label class="control-label">Prix : </label>
             <input type="text" formControlName="price" class="form-control">
-        </div>            
+        </div>  
+        <div class="form-group">
+            <label class="control-label">catégorie : </label>
+            <input type="text" formControlName="category" class="form-control">
+        </div> 
+      
             <button *ngIf="!status" type="submit" class="btn btn-primary">Ajouter en Base</button>
             <button *ngIf="status" type="submit" class="btn btn-primary">Mise à jour</button>
             <div class="text-danger"> {{error}}</div>     

@@ -8,6 +8,7 @@ import { ApiService } from './api.service';
 export class AuthenticateService {
   private users = [
     {email:'elbab@gmail.com'   , password:'1234' , roles:['ADMIN','USER']},
+    {email:'mathieu@gmail.com'   , password:'1234' , roles:['ADMIN','USER']},
     {email:'pierre@gmail.com'  , password:'123'  , roles:['USER']},    
   ];
   userConnected : User = new User("","",[]);

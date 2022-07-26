@@ -1,28 +1,48 @@
 <div class="container">
     <ng-container *ngIf="listTrainings else loading">
+        
+        <div class="title">
+           <h1>CATEGORIE</h1>
+        </div>
+        <div><a class="btn btn-success" (click)="selectCategory(0)">TOUTES LES FORMATIONS</a></div>
+
+        <div class="btnCategory">
+            
+            <ul *ngFor="let category of listCategories">
+                <li class="btnCategory"><button class="btn btn-primary "(click)="selectCategory(category.id)">{{category.name}}</button></li>
+                
+            </ul>
+        </div>
         <table class="table table-striped">
+
+           
+
+
             <thead>
-                <tr>
-                    <th>ID</th> <th>NOM</th> <th>DESCRIPTION</th> <th>PRIX</th> <th>QUANTITE</th> <th>PANIER</th>
+                <tr >
+                     <th>NOM</th> <th>DESCRIPTION</th> <th>PRIX</th> <th>QUANTITE</th><th>CATEGORIE</th> <th>PANIER</th> <th *ngIf="this.authService.isAdmin()">SUPPRIMER</th><th *ngIf="this.authService.isAdmin()">MISE à JOUR</th>
                 </tr>         
             </thead>
-            <tbody>
-                <tr *ngFor="let training of listTrainings">
-                    <td>{{training.id}}</td>
-                    <td>{{training.name}}</td>    
-                    <td>{{training.description}}</td>
-                    <td>{{training.price}}</td>
-                    <td> <input type="number" name="quantity" style="width: 60px" [(ngModel)]="training.quantity" > </td>
-                    <td> 
+            <tbody *ngFor="let training of listTrainings">
+                <tr   *ngIf="training.category.id==categoryId || categoryId == 0">
+                    
+                    <td >{{training.name}}</td>    
+                    <td >{{training.description}}</td>
+                    <td > {{training.price}}</td>
+                   
+                    <td > <input type="number" name="quantity" style="width: 60px" [(ngModel)]="training.quantity" > </td>
+                    <td >{{training.category.name}}</td>
+                    <td > 
                         <a class="btn btn-primary" (click)="onAddToCart(training)"> 
                             <i class="fa fa-shopping-cart"></i> Ajouter
                         </a>                        
                     </td>
-                    <td *ngIf="this.authService.isAdmin()"> 
+                    <td  *ngIf="this.authService.isAdmin()"> 
                         <a class="btn btn-danger" (click)="onDeleteTraining(training)"> Supprimer </a></td>
-                    <td *ngIf="this.authService.isAdmin()"> 
+                    <td  *ngIf="this.authService.isAdmin()"> 
                         <a class="btn btn-secondary" (click)="onUpdateTraining(training)"> Mise à jour </a></td>
                 </tr>
+           
             </tbody>
         </table>    
     </ng-container>

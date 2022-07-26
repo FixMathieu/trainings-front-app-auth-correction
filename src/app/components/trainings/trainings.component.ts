@@ -4,6 +4,7 @@ import { CartService } from 'src/app/services/cart.service';
 import { Router } from '@angular/router';
 import { ApiService } from 'src/app/services/api.service';
 import { AuthenticateService } from 'src/app/services/authenticate.service';
+import { Category } from 'src/app/model/category.model';
 
 @Component({
   selector: 'app-trainings',
@@ -12,6 +13,8 @@ import { AuthenticateService } from 'src/app/services/authenticate.service';
 })
 export class TrainingsComponent implements OnInit {
   listTrainings : Training[] | undefined;
+  listCategories : Category[]| undefined;
+  categoryId : number = 0;
   error = null;
   
   constructor(private cartService : CartService, private router : Router, 
@@ -20,8 +23,24 @@ export class TrainingsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllTrainings();
+    this.getAllCategory();
   }
-
+getAllCategory(){
+  this.apiService.getCategory().subscribe({
+    next : (data) => this.listCategories = data,
+    error : (err) => this.error = err.message,
+    complete : () => this.error = null
+  })
+}
+selectCategory(categoryId:number){
+ /* console.log(categoryId);*/
+ this.categoryId=categoryId;
+/*this.apiService.getTrainingsByCategory(categoryId).subscribe({
+  next : (data) => this.listTrainings = data,
+  error : (err) => this.error = err.message,
+  complete : () => this.error = null
+})*/
+}
   getAllTrainings() {
     this.apiService.getTrainings().subscribe({
       next : (data) => this.listTrainings = data,

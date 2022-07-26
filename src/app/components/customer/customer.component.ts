@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Customer } from 'src/app/model/customer.model';
 import { CartService } from 'src/app/services/cart.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ApiService } from 'src/app/services/api.service';
 
 @Component({
   selector: 'app-customer',
@@ -12,8 +13,12 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 export class CustomerComponent implements OnInit {  
   myForm : FormGroup;
   customer : Customer;
-  constructor(public cartService : CartService, private router : Router, private formBuilder : FormBuilder) {  
-     this.customer = this.cartService.getCustomer();
+  error: any;
+  // cartService: any;
+  // apiService: any;
+
+  constructor(public apiService : ApiService, private router : Router, private formBuilder : FormBuilder) {  
+     this.customer = new Customer("","","","","");
    /* this.myForm = new FormGroup({
       name : new FormControl(this.customer.name),
       firstName : new FormControl(this.customer.firstName),
@@ -24,7 +29,7 @@ export class CustomerComponent implements OnInit {
     this.myForm = this.formBuilder.group({
       name : [this.customer.name, Validators.required],
       firstName : [this.customer.firstName, Validators.required],
-      address : [this.customer.address, [Validators.required,Validators.minLength(25)]],
+      address : [this.customer.address, [Validators.required,Validators.minLength(5)]],
       phone : [this.customer.phone, [Validators.required,Validators.maxLength(10)]],
       email : [this.customer.email, [Validators.required,Validators.pattern('[a-z0-9.@]*')]]
     })
@@ -33,10 +38,20 @@ export class CustomerComponent implements OnInit {
   ngOnInit(): void {  
   }
   onSaveCustomer(form : FormGroup){
+    localStorage.clear();
+    // this.myForm = form;
+    console.log("voilà : " + form);
     if(form.valid){
-      this.cartService.saveCustomer(new Customer(form.value.name,form.value.firstName,
-        form.value.address,form.value.phone,form.value.email));
-      this.router.navigateByUrl('order');
+      console.log("dans le if : " + form.value.firstName);
+     let customer= this.apiService.postCustomer({name:form.value.name,firstName:form.value.firstName,
+       address:form.value.address,phone:form.value.phone,email:form.value.email}).subscribe({
+        next : (data) => console.log(data),  
+        error : (err) => this.error = err.message,
+        complete : () => this.router.navigateByUrl('order')
+       });
+    
+       this.apiService.saveCustomer(customer);
     }
   }
+
 }
