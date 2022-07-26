@@ -38,19 +38,18 @@ export class CustomerComponent implements OnInit {
   ngOnInit(): void {  
   }
   onSaveCustomer(form : FormGroup){
-    localStorage.clear();
     // this.myForm = form;
     console.log("voilà : " + form);
     if(form.valid){
       console.log("dans le if : " + form.value.firstName);
-     let customer= this.apiService.postCustomer({name:form.value.name,firstName:form.value.firstName,
+      this.apiService.postCustomer({name:form.value.name,firstName:form.value.firstName,
        address:form.value.address,phone:form.value.phone,email:form.value.email}).subscribe({
         next : (data) => console.log(data),  
         error : (err) => this.error = err.message,
         complete : () => this.router.navigateByUrl('order')
        });
-    
-       this.apiService.saveCustomer(customer);
+       this.apiService.saveCustomer(new Customer(form.value.name,form.value.firstName,
+        form.value.address,form.value.phone,form.value.email));
     }
   }
 
