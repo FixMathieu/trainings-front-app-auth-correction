@@ -30,7 +30,6 @@ export class CartService {
 
   saveCustomer(customer : any) {
     localStorage.setItem('customer',JSON.stringify(customer));
-    
   }
 
   saveCart() {

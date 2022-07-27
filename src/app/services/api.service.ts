@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Category } from '../model/category.model';
 import { Customer } from '../model/customer.model';
+import { Details } from '../model/details.model';
 import { Order } from '../model/order.model';
 import { Training } from '../model/training.model';
 import { User } from '../model/user.model';
@@ -11,8 +12,13 @@ import { User } from '../model/user.model';
   providedIn: 'root'
 })
 export class ApiService {
-  postOrder(order: any) {
+  public postOrder(order: any) {
+    console.log(order);
     return this.http.post<Order>(environment.host+"/orderUser",order);
+  }
+
+  public postDetails(details : any){
+    return this.http.post<Details>(environment.host+"/details", details);
   }
 
   getTrainingsByCategory(categoryId: number) {

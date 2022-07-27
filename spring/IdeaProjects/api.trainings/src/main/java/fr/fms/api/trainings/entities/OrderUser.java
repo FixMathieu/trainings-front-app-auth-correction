@@ -6,7 +6,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
+import java.util.Collection;
+import java.util.Date;
 
 @Entity
 @Data
@@ -17,11 +18,12 @@ public class OrderUser implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private double total;
+    //private Date date;
 
     @ManyToOne
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
     @OneToMany(mappedBy = "orderUser")
-    private List<Details> details;
+    private Collection<Details> details;
 }

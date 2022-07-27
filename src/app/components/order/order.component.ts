@@ -1,5 +1,7 @@
 import { Component, DoCheck, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
+import { Customer } from 'src/app/model/customer.model';
+import { Details } from 'src/app/model/details.model';
 import { Order } from 'src/app/model/order.model';
 import { ApiService } from 'src/app/services/api.service';
 import { CartService } from 'src/app/services/cart.service';
@@ -43,15 +45,45 @@ error = null;
     //   this.cartService.clear();
     //   this.router.navigateByUrl('');
     // }
-    let order = new Order(0,this.dateOrder,this.cartService.getCartItems(),this.cartService.getCustomer(),this.cartService.getAmount());
+
+    let customer = new Customer("","","","","");
+    let order = new Order(customer,0,new Array<Details>());
+
+    //Create detailsList
+    let detailsList : Array<Details> = [];
+
+    //console.log(this.cartService.getCartItems());
+    for (let i=0 ;  i<this.cartService.getCartItems().size ;i++){
+      detailsList[i] = new Details(1,this.cartService.getCartItems().get(i+1),order);
+      //console.log(this.cartService.getCartItems().get(i+1));
+    }
+    
+
+
+
+    order = new Order(this.cartService.getCustomer(),this.cartService.getAmount(), detailsList);
+    console.log(order);
+    
+    if(confirm("Merci de votre achat.")){
     this.apiService.postOrder(order).subscribe({
       next : (data)=>{
         this.orderNumber = data.id;
-        this.dateOrder = data.date;
-        this.cartService.clear();
+       // this.dateOrder = data.date;
       },
       error : (err) => this.error = err.message,
       complete : () => this.error = null
     })
+    this.cartService.clear();
+    this.router.navigateByUrl('trainings');
+  }
+    
+
+
+
+
+    // for (let i=0 ;  i<this.cartService.getCartItems.length ;i++){
+    //   this.apiService.postDetails(new Details(0,1,this.cartService.getCartItems().get(i),order));
+    // }
   }
 }
+//0,this.cartService.getCartItems[i].quantity,this.cartService.getCartItems[i].training, this.apiService.get

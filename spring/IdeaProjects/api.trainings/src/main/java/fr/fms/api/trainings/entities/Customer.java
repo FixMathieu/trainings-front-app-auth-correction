@@ -7,7 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
+import java.util.Collection;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -24,5 +24,5 @@ public class Customer implements Serializable {
     private String phone;
     private String email;
     @OneToMany(mappedBy ="customer")
-    private List<OrderUser> orderUserList;
+    private Collection<OrderUser> orderUserList;
 }

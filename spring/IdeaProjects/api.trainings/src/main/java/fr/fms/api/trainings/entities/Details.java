@@ -14,6 +14,7 @@ public class Details implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private int quantity;
 
     @ManyToOne
     private Training training;

@@ -4,6 +4,8 @@ import fr.fms.api.trainings.entities.OrderUser;
 
 import fr.fms.api.trainings.service.ImplOrderUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,8 +20,8 @@ public class OrderUserController {
     public List<OrderUser> allOrderUser(){return implOrderUserService.getOrderUser();}
 
     @PostMapping("/orderUser")
-    public OrderUser saveOrderUser(@RequestBody OrderUser t){
-        return implOrderUserService.saveOrderUser(t);
+    public OrderUser saveOrderUser(@RequestBody OrderUser orderUser){
+        return implOrderUserService.saveOrderUser(orderUser);
     }
 
     @DeleteMapping("/orderUser/{id}")
