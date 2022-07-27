@@ -14,10 +14,11 @@ export class CustomerComponent implements OnInit {
   myForm : FormGroup;
   customer : Customer;
   error: any;
+  
   // cartService: any;
   // apiService: any;
 
-  constructor(public apiService : ApiService, private router : Router, private formBuilder : FormBuilder) {  
+  constructor(public cartService : CartService, private router : Router, private formBuilder : FormBuilder) {  
      this.customer = new Customer("","","","","");
    /* this.myForm = new FormGroup({
       name : new FormControl(this.customer.name),
@@ -42,14 +43,10 @@ export class CustomerComponent implements OnInit {
     console.log("voilà : " + form);
     if(form.valid){
       console.log("dans le if : " + form.value.firstName);
-      this.apiService.postCustomer({name:form.value.name,firstName:form.value.firstName,
-       address:form.value.address,phone:form.value.phone,email:form.value.email}).subscribe({
-        next : (data) => console.log(data),  
-        error : (err) => this.error = err.message,
-        complete : () => this.router.navigateByUrl('order')
-       });
-       this.apiService.saveCustomer(new Customer(form.value.name,form.value.firstName,
+    
+       this.cartService.saveCustomer(new Customer(form.value.name,form.value.firstName,
         form.value.address,form.value.phone,form.value.email));
+        this.router.navigateByUrl('order');
     }
   }
 

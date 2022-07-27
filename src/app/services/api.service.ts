@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Category } from '../model/category.model';
 import { Customer } from '../model/customer.model';
+import { Order } from '../model/order.model';
 import { Training } from '../model/training.model';
 import { User } from '../model/user.model';
 
@@ -10,6 +11,9 @@ import { User } from '../model/user.model';
   providedIn: 'root'
 })
 export class ApiService {
+  postOrder(order: any) {
+    return this.http.post<Order>(environment.host+"/orderUser",order);
+  }
 
   getTrainingsByCategory(categoryId: number) {
     return this.http.get<Training[]>(environment.host+"/trainings/category/"+categoryId);
@@ -51,15 +55,13 @@ export class ApiService {
     localStorage.setItem('customer',JSON.stringify(customer));
     
   }
- public getCustomer() {
-     let customer =this.http.get<Customer>(environment.host+"/customer/"+localStorage.getItem('customer'));
-    if(customer)  return  customer;
-    // return new Customer("unknown","","","","");
-    return this.http.post<Customer>(environment.host+"/customer",customer);
-  }
+//  public getCustomer() {
+//      let customer =this.http.get<Customer>(environment.host+"/customer/"+localStorage.getItem('customer'));
+//     if(customer)  return  customer;
+//     // return new Customer("unknown","","","","");
+//     return this.http.post<Customer>(environment.host+"/customer",customer);
+//   }
   public postCustomer(customer : any){
-   
-
     return this.http.post<Customer>(environment.host+"/customer",customer);
   }
 

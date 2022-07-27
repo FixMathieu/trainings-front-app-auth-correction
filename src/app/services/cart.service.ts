@@ -8,6 +8,7 @@ import { Training } from '../model/training.model';
   providedIn: 'root'
 })
 export class CartService {
+
   private cart : Map<number,Training>;
 
   constructor(private http:HttpClient) {     
@@ -18,7 +19,10 @@ export class CartService {
     } // sinon il faut le créer
     else this.cart = new Map<number,Training>();
   }
-
+  getCartItems():  Map<number,Training> {
+    localStorage.getItem('cart');
+    return new Map (this.cart);
+  }
   addTraining(training: Training) { 
     this.cart.set(training.id,training);
     this.saveCart(); //à chaque fois que j'ajoute un élément au panier, je met à jour le local storage
